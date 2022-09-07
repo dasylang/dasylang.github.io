@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-07 Wed 17:17 -->
+<!-- 2022-09-07 Wed 17:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dasy By Example</title>
@@ -23,41 +23,41 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfab7e26">1. Hello World</a></li>
-<li><a href="#org779493c">2. Data Types - Values</a></li>
-<li><a href="#orgd8ee3ab">3. Data Types - References</a></li>
-<li><a href="#orgccdcab1">4. Dynamic Arrays</a></li>
-<li><a href="#orgf486c2c">5. Functions</a></li>
-<li><a href="#orgaed1c4c">6. Internal and External Functions</a></li>
-<li><a href="#org4867419">7. View and Pure Functions</a></li>
-<li><a href="#orgccdb97c">8. Constructor</a></li>
-<li><a href="#org606a1e2">9. Private and Public State Variables</a></li>
-<li><a href="#org6419fbc">10. Constants</a></li>
-<li><a href="#orgc246241">11. Immutable</a>
+<li><a href="#org1938e24">1. Hello World</a></li>
+<li><a href="#org97daaea">2. Data Types - Values</a></li>
+<li><a href="#orgf28ffa4">3. Data Types - References</a></li>
+<li><a href="#org0704b4f">4. Dynamic Arrays</a></li>
+<li><a href="#orgee7ab0a">5. Functions</a></li>
+<li><a href="#orgb1acfca">6. Internal and External Functions</a></li>
+<li><a href="#org36f8c57">7. View and Pure Functions</a></li>
+<li><a href="#org06dddc0">8. Constructor</a></li>
+<li><a href="#org9ce3f38">9. Private and Public State Variables</a></li>
+<li><a href="#orgf8091db">10. Constants</a></li>
+<li><a href="#orgcae8ddd">11. Immutable</a>
 <ul>
-<li><a href="#orgef8cb33">11.1. When to use immutable variables?</a></li>
-<li><a href="#org8b17afd">11.2. Why declare variables as <code>immutable</code>?</a></li>
+<li><a href="#org08e849c">11.1. When to use immutable variables?</a></li>
+<li><a href="#orgd744dca">11.2. Why declare variables as <code>immutable</code>?</a></li>
 </ul>
 </li>
-<li><a href="#org1c3bade">12. If/Else</a></li>
-<li><a href="#orgfd79dd2">13. For Loop</a></li>
-<li><a href="#orgd7bbf6c">14. Errors</a></li>
-<li><a href="#org689b98a">15. Events</a></li>
-<li><a href="#orgbe1da65">16. Payable</a></li>
-<li><a href="#org77fb649">17. Default Function</a></li>
-<li><a href="#orgf89c145">18. Send Ether</a></li>
-<li><a href="#orgd73064c">19. Raw Call</a></li>
-<li><a href="#orgce7c6d6">20. Delegate Call</a></li>
-<li><a href="#orgcef5be1">21. Interface</a></li>
-<li><a href="#org68d5ff7">22. Hash Function</a></li>
-<li><a href="#org93c802d">23. Re-Entrancy Lock</a></li>
-<li><a href="#org61b9ef2">24. Self Destruct</a></li>
+<li><a href="#orgd7e03f2">12. If/Else</a></li>
+<li><a href="#org0dbaa35">13. For Loop</a></li>
+<li><a href="#org1336fd1">14. Errors</a></li>
+<li><a href="#orgf884214">15. Events</a></li>
+<li><a href="#org63077fb">16. Payable</a></li>
+<li><a href="#orga710135">17. Default Function</a></li>
+<li><a href="#orge3e312c">18. Send Ether</a></li>
+<li><a href="#org3db2a31">19. Raw Call</a></li>
+<li><a href="#org6c7a234">20. Delegate Call</a></li>
+<li><a href="#org8116565">21. Interface</a></li>
+<li><a href="#org1079d88">22. Hash Function</a></li>
+<li><a href="#org096fbcd">23. Re-Entrancy Lock</a></li>
+<li><a href="#orgbabe208">24. Self Destruct</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgfab7e26" class="outline-2">
-<h2 id="orgfab7e26"><span class="section-number-2">1.</span> Hello World</h2>
+<div id="outline-container-org1938e24" class="outline-2">
+<h2 id="org1938e24"><span class="section-number-2">1.</span> Hello World</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Create a string variable that can store maximum 100 characters</span>
@@ -69,8 +69,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org779493c" class="outline-2">
-<h2 id="org779493c"><span class="section-number-2">2.</span> Data Types - Values</h2>
+<div id="outline-container-org97daaea" class="outline-2">
+<h2 id="org97daaea"><span class="section-number-2">2.</span> Data Types - Values</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span>
@@ -93,15 +93,11 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgd8ee3ab" class="outline-2">
-<h2 id="orgd8ee3ab"><span class="section-number-2">3.</span> Data Types - References</h2>
+<div id="outline-container-orgf28ffa4" class="outline-2">
+<h2 id="orgf28ffa4"><span class="section-number-2">3.</span> Data Types - References</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 References types are data types that are passed by their reference, pointer to where the actual data is stored.
-</p>
-
-<p>
-<a href="examples/value_types.dasy">code file</a>
 </p>
 
 <div class="org-src-container">
@@ -143,8 +139,8 @@ References types are data types that are passed by their reference, pointer to w
 </div>
 </div>
 </div>
-<div id="outline-container-orgccdcab1" class="outline-2">
-<h2 id="orgccdcab1"><span class="section-number-2">4.</span> Dynamic Arrays</h2>
+<div id="outline-container-org0704b4f" class="outline-2">
+<h2 id="org0704b4f"><span class="section-number-2">4.</span> Dynamic Arrays</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Dynamic arrays are bounded arrays whose length can change. The length of the array cannot exceed the maximum length set where the array is declared.
@@ -184,8 +180,8 @@ Dynamic arrays are bounded arrays whose length can change. The length of the arr
 </div>
 </div>
 </div>
-<div id="outline-container-orgf486c2c" class="outline-2">
-<h2 id="orgf486c2c"><span class="section-number-2">5.</span> Functions</h2>
+<div id="outline-container-orgee7ab0a" class="outline-2">
+<h2 id="orgee7ab0a"><span class="section-number-2">5.</span> Functions</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">multiply</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
@@ -203,8 +199,8 @@ Dynamic arrays are bounded arrays whose length can change. The length of the arr
 </div>
 </div>
 </div>
-<div id="outline-container-orgaed1c4c" class="outline-2">
-<h2 id="orgaed1c4c"><span class="section-number-2">6.</span> Internal and External Functions</h2>
+<div id="outline-container-orgb1acfca" class="outline-2">
+<h2 id="orgb1acfca"><span class="section-number-2">6.</span> Internal and External Functions</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 <code>:internal</code> functions can only be called inside the contract.
@@ -243,8 +239,8 @@ Dynamic arrays are bounded arrays whose length can change. The length of the arr
 </div>
 </div>
 </div>
-<div id="outline-container-org4867419" class="outline-2">
-<h2 id="org4867419"><span class="section-number-2">7.</span> View and Pure Functions</h2>
+<div id="outline-container-org36f8c57" class="outline-2">
+<h2 id="org36f8c57"><span class="section-number-2">7.</span> View and Pure Functions</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Both <code>pure</code> and <code>view</code> functions are read-only. They cannot write anything to the blockchain.
@@ -278,8 +274,8 @@ Both <code>pure</code> and <code>view</code> functions are read-only. They canno
 </div>
 </div>
 </div>
-<div id="outline-container-orgccdb97c" class="outline-2">
-<h2 id="orgccdb97c"><span class="section-number-2">8.</span> Constructor</h2>
+<div id="outline-container-org06dddc0" class="outline-2">
+<h2 id="org06dddc0"><span class="section-number-2">8.</span> Constructor</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 <code>__init__</code> is a special function that is executed only once, when the contract is deployed.
@@ -303,8 +299,8 @@ Both <code>pure</code> and <code>view</code> functions are read-only. They canno
 </div>
 </div>
 </div>
-<div id="outline-container-org606a1e2" class="outline-2">
-<h2 id="org606a1e2"><span class="section-number-2">9.</span> Private and Public State Variables</h2>
+<div id="outline-container-org9ce3f38" class="outline-2">
+<h2 id="org9ce3f38"><span class="section-number-2">9.</span> Private and Public State Variables</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 Private state variables cannot be accessed from outside of the contract.
@@ -328,8 +324,8 @@ Public state variables can be read by anyone, including other contracts.
 </div>
 </div>
 </div>
-<div id="outline-container-org6419fbc" class="outline-2">
-<h2 id="org6419fbc"><span class="section-number-2">10.</span> Constants</h2>
+<div id="outline-container-orgf8091db" class="outline-2">
+<h2 id="orgf8091db"><span class="section-number-2">10.</span> Constants</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 Constants are variables that cannot change. Any usage of a constant is replaced with its value at compile time.
@@ -350,8 +346,8 @@ Constants are variables that cannot change. Any usage of a constant is replaced 
 </div>
 </div>
 </div>
-<div id="outline-container-orgc246241" class="outline-2">
-<h2 id="orgc246241"><span class="section-number-2">11.</span> Immutable</h2>
+<div id="outline-container-orgcae8ddd" class="outline-2">
+<h2 id="orgcae8ddd"><span class="section-number-2">11.</span> Immutable</h2>
 <div class="outline-text-2" id="text-11">
 <p>
 Immutables are variables that must be set at compile time and cannot change afterwards. Any usage of a constant in runtime code is replaced with its value at deployment time.
@@ -370,8 +366,8 @@ Immutables are variables that must be set at compile time and cannot change afte
 </pre>
 </div>
 </div>
-<div id="outline-container-orgef8cb33" class="outline-3">
-<h3 id="orgef8cb33"><span class="section-number-3">11.1.</span> When to use immutable variables?</h3>
+<div id="outline-container-org08e849c" class="outline-3">
+<h3 id="org08e849c"><span class="section-number-3">11.1.</span> When to use immutable variables?</h3>
 <div class="outline-text-3" id="text-11-1">
 <ul class="org-ul">
 <li>You have a variable that needs to be set when the contract is deployed, for example like setting contract owner to <code>msg.sender</code></li>
@@ -379,8 +375,8 @@ Immutables are variables that must be set at compile time and cannot change afte
 </ul>
 </div>
 </div>
-<div id="outline-container-org8b17afd" class="outline-3">
-<h3 id="org8b17afd"><span class="section-number-3">11.2.</span> Why declare variables as <code>immutable</code>?</h3>
+<div id="outline-container-orgd744dca" class="outline-3">
+<h3 id="orgd744dca"><span class="section-number-3">11.2.</span> Why declare variables as <code>immutable</code>?</h3>
 <div class="outline-text-3" id="text-11-2">
 <ul class="org-ul">
 <li>Like constants, <code>immutable</code> variables save run time gas.</li>
@@ -388,8 +384,8 @@ Immutables are variables that must be set at compile time and cannot change afte
 </div>
 </div>
 </div>
-<div id="outline-container-org1c3bade" class="outline-2">
-<h2 id="org1c3bade"><span class="section-number-2">12.</span> If/Else</h2>
+<div id="outline-container-orgd7e03f2" class="outline-2">
+<h2 id="orgd7e03f2"><span class="section-number-2">12.</span> If/Else</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">ifElse</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:external</span>
@@ -407,8 +403,8 @@ Immutables are variables that must be set at compile time and cannot change afte
 </div>
 </div>
 </div>
-<div id="outline-container-orgfd79dd2" class="outline-2">
-<h2 id="orgfd79dd2"><span class="section-number-2">13.</span> For Loop</h2>
+<div id="outline-container-org0dbaa35" class="outline-2">
+<h2 id="org0dbaa35"><span class="section-number-2">13.</span> For Loop</h2>
 <div class="outline-text-2" id="text-13">
 <p>
 There are 2 ways to loop through an array, using <code>range</code> or directly looping through array elements.
@@ -444,8 +440,8 @@ There are 2 ways to loop through an array, using <code>range</code> or directly 
 </div>
 </div>
 </div>
-<div id="outline-container-orgd7bbf6c" class="outline-2">
-<h2 id="orgd7bbf6c"><span class="section-number-2">14.</span> Errors</h2>
+<div id="outline-container-org1336fd1" class="outline-2">
+<h2 id="org1336fd1"><span class="section-number-2">14.</span> Errors</h2>
 <div class="outline-text-2" id="text-14">
 <p>
 Use <code>assert</code> and <code>raise</code> to check inputs and validate state.
@@ -492,8 +488,8 @@ You will still need to pay gas for the failed transaction.
 </div>
 </div>
 </div>
-<div id="outline-container-org689b98a" class="outline-2">
-<h2 id="org689b98a"><span class="section-number-2">15.</span> Events</h2>
+<div id="outline-container-orgf884214" class="outline-2">
+<h2 id="orgf884214"><span class="section-number-2">15.</span> Events</h2>
 <div class="outline-text-2" id="text-15">
 <p>
 Events write logs to the blockchain, commonly used by application to monitor blockchain state and as a cheaper alternative to store data on the blockchain without using state variables.
@@ -521,8 +517,8 @@ Events can be efficiently searched by indexing their arguments. Up to 3 paramete
 </div>
 </div>
 </div>
-<div id="outline-container-orgbe1da65" class="outline-2">
-<h2 id="orgbe1da65"><span class="section-number-2">16.</span> Payable</h2>
+<div id="outline-container-org63077fb" class="outline-2">
+<h2 id="org63077fb"><span class="section-number-2">16.</span> Payable</h2>
 <div class="outline-text-2" id="text-16">
 <p>
 Functions declared with <code>payable</code> can receive Ether.
@@ -549,8 +545,8 @@ Functions declared with <code>payable</code> can receive Ether.
 </div>
 </div>
 </div>
-<div id="outline-container-org77fb649" class="outline-2">
-<h2 id="org77fb649"><span class="section-number-2">17.</span> Default Function</h2>
+<div id="outline-container-orga710135" class="outline-2">
+<h2 id="orga710135"><span class="section-number-2">17.</span> Default Function</h2>
 <div class="outline-text-2" id="text-17">
 <p>
 A contract can have a default function, executed when a function that does not exist is called. This is the same function as the fallback function in Solidity.
@@ -571,8 +567,8 @@ This function is named <code>__default__</code> and it is commonly used to recei
 </div>
 </div>
 </div>
-<div id="outline-container-orgf89c145" class="outline-2">
-<h2 id="orgf89c145"><span class="section-number-2">18.</span> Send Ether</h2>
+<div id="outline-container-orge3e312c" class="outline-2">
+<h2 id="orge3e312c"><span class="section-number-2">18.</span> Send Ether</h2>
 <div class="outline-text-2" id="text-18">
 <p>
 There are two ways to send Ether from a contract, <code>send</code> and <code>raw_call</code>. Here we introduce the simpler function to use, <code>send</code>.
@@ -593,8 +589,8 @@ There are two ways to send Ether from a contract, <code>send</code> and <code>ra
 </div>
 </div>
 </div>
-<div id="outline-container-orgd73064c" class="outline-2">
-<h2 id="orgd73064c"><span class="section-number-2">19.</span> Raw Call</h2>
+<div id="outline-container-org3db2a31" class="outline-2">
+<h2 id="org3db2a31"><span class="section-number-2">19.</span> Raw Call</h2>
 <div class="outline-text-2" id="text-19">
 <p>
 <code>raw_call</code> is a low level function. It is used to call and send Ether to other functions.
@@ -620,8 +616,8 @@ There are two ways to send Ether from a contract, <code>send</code> and <code>ra
 </div>
 </div>
 </div>
-<div id="outline-container-orgce7c6d6" class="outline-2">
-<h2 id="orgce7c6d6"><span class="section-number-2">20.</span> Delegate Call</h2>
+<div id="outline-container-org6c7a234" class="outline-2">
+<h2 id="org6c7a234"><span class="section-number-2">20.</span> Delegate Call</h2>
 <div class="outline-text-2" id="text-20">
 <p>
 When contract <code>A</code> delegates call to contract <code>B</code>, <code>B</code>&rsquo;s code will be executed inside contract <code>A</code>. This will update state variables and Ether balance inside contract <code>A</code> and not <code>B</code>.
@@ -672,8 +668,8 @@ Here is the contract that will execute the delegated calls.
 </div>
 </div>
 </div>
-<div id="outline-container-orgcef5be1" class="outline-2">
-<h2 id="orgcef5be1"><span class="section-number-2">21.</span> Interface</h2>
+<div id="outline-container-org8116565" class="outline-2">
+<h2 id="org8116565"><span class="section-number-2">21.</span> Interface</h2>
 <div class="outline-text-2" id="text-21">
 <p>
 Use <code>definterface</code> to define interfaces to use for calling other smart contracts.
@@ -728,8 +724,8 @@ Here is the contract executing the call via interface:
 </div>
 </div>
 </div>
-<div id="outline-container-org68d5ff7" class="outline-2">
-<h2 id="org68d5ff7"><span class="section-number-2">22.</span> Hash Function</h2>
+<div id="outline-container-org1079d88" class="outline-2">
+<h2 id="org1079d88"><span class="section-number-2">22.</span> Hash Function</h2>
 <div class="outline-text-2" id="text-22">
 <p>
 Dasy supports the same hash function available in Vyper and Solidity, <code>keccak256</code>
@@ -749,8 +745,8 @@ Dasy supports the same hash function available in Vyper and Solidity, <code>kecc
 </div>
 </div>
 </div>
-<div id="outline-container-org93c802d" class="outline-2">
-<h2 id="org93c802d"><span class="section-number-2">23.</span> Re-Entrancy Lock</h2>
+<div id="outline-container-org096fbcd" class="outline-2">
+<h2 id="org096fbcd"><span class="section-number-2">23.</span> Re-Entrancy Lock</h2>
 <div class="outline-text-2" id="text-23">
 <p>
 Dasy has a handy way to secure your contract from re-entrancy.
@@ -777,8 +773,8 @@ Functions can be locked together by using the same name for the locks.
 </div>
 </div>
 </div>
-<div id="outline-container-org61b9ef2" class="outline-2">
-<h2 id="org61b9ef2"><span class="section-number-2">24.</span> Self Destruct</h2>
+<div id="outline-container-orgbabe208" class="outline-2">
+<h2 id="orgbabe208"><span class="section-number-2">24.</span> Self Destruct</h2>
 <div class="outline-text-2" id="text-24">
 <p>
 <code>selfdestruct</code> deletes the contract from the blockchain. It takes a single input, an address to send all of Ether stored in the contract.
@@ -801,7 +797,7 @@ Functions can be locked together by using the same name for the locks.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: z80</p>
-<p class="date">Created: 2022-09-07 Wed 17:17</p>
+<p class="date">Created: 2022-09-07 Wed 17:32</p>
 </div>
 </body>
 </html>
