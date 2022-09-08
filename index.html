@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-07 Wed 21:26 -->
+<!-- 2022-09-07 Wed 17:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dasy</title>
+<title>Dasy By Example</title>
 <meta name="author" content="z80" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
@@ -18,176 +18,786 @@
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">Dasy</h1>
+<h1 class="title">Dasy By Example</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org291202d">1. Examples</a></li>
-<li><a href="#org978476b">2. Installation</a></li>
-<li><a href="#orgea10a39">3. Motivation</a>
+<li><a href="#org1938e24">1. Hello World</a></li>
+<li><a href="#org97daaea">2. Data Types - Values</a></li>
+<li><a href="#orgf28ffa4">3. Data Types - References</a></li>
+<li><a href="#org0704b4f">4. Dynamic Arrays</a></li>
+<li><a href="#orgee7ab0a">5. Functions</a></li>
+<li><a href="#orgb1acfca">6. Internal and External Functions</a></li>
+<li><a href="#org36f8c57">7. View and Pure Functions</a></li>
+<li><a href="#org06dddc0">8. Constructor</a></li>
+<li><a href="#org9ce3f38">9. Private and Public State Variables</a></li>
+<li><a href="#orgf8091db">10. Constants</a></li>
+<li><a href="#orgcae8ddd">11. Immutable</a>
 <ul>
-<li><a href="#org1eb14ec">3.1. Macros</a></li>
-<li><a href="#orgc3f9d40">3.2. For fun</a></li>
+<li><a href="#org08e849c">11.1. When to use immutable variables?</a></li>
+<li><a href="#orgd744dca">11.2. Why declare variables as <code>immutable</code>?</a></li>
 </ul>
 </li>
+<li><a href="#orgd7e03f2">12. If/Else</a></li>
+<li><a href="#org0dbaa35">13. For Loop</a></li>
+<li><a href="#org1336fd1">14. Errors</a></li>
+<li><a href="#orgf884214">15. Events</a></li>
+<li><a href="#org63077fb">16. Payable</a></li>
+<li><a href="#orga710135">17. Default Function</a></li>
+<li><a href="#orge3e312c">18. Send Ether</a></li>
+<li><a href="#org3db2a31">19. Raw Call</a></li>
+<li><a href="#org6c7a234">20. Delegate Call</a></li>
+<li><a href="#org8116565">21. Interface</a></li>
+<li><a href="#org1079d88">22. Hash Function</a></li>
+<li><a href="#org096fbcd">23. Re-Entrancy Lock</a></li>
+<li><a href="#orgbabe208">24. Self Destruct</a></li>
 </ul>
 </div>
 </div>
-<blockquote>
-<p>
-The Dasypeltis, gansi, is considered an egg-eating snake. Their diet consists of all forms of eggs considering they have no teeth in which to eat living prey with.
-</p>
-</blockquote>
 
-<p>
-Dasy is an experimental smart contract programming language in the lisp family. It is implemented by compiling to Vyper and benefits from the extensive optimizations and excellent performance of Vyper.
-</p>
-
-<p>
-Learn more in the <a href="docs.html">documentation</a>
-</p>
-
-<div id="outline-container-org291202d" class="outline-2">
-<h2 id="org291202d"><span class="section-number-2">1.</span> Examples</h2>
+<div id="outline-container-org1938e24" class="outline-2">
+<h2 id="org1938e24"><span class="section-number-2">1.</span> Hello World</h2>
 <div class="outline-text-2" id="text-1">
-<p>
-<a href="https://dasy-by-example.github.io">More examples at Dasy By Example</a>
-</p>
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span> <span style="color: #006699;">myMap</span> <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>hash-map <span style="color: #D0372D;">:address</span> <span style="color: #D0372D;">:uint256</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
-        nums <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>dyn-arr <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">3</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
-        owner <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
-
-<span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
-  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner <span style="color: #6434A3;">msg</span>/sender<span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>set-at <span style="color: #6434A3;">self</span>/myMap <span style="color: #6434A3;">msg</span>/sender <span style="color: #D0372D;">10</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">do</span> <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">wrap statements in do</span>
-    <span style="color: #909183;">(</span>.append <span style="color: #6434A3;">self</span>/nums <span style="color: #D0372D;">11</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
-
-<span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getOwnerNum</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:external</span>
-  <span style="color: #7388D6;">(</span>get-in <span style="color: #6434A3;">self</span>/myMap <span style="color: #6434A3;">self</span>/owner<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
-</pre>
-</div>
-
-<p>
-via <a href="https://github.com/z80dev/titanoboa">this fork of titanoboa</a>
-</p>
-<div class="org-src-container">
-<pre class="src src-python"><span style="color: #0000FF;">import</span> boa
-
-<span style="color: #BA36A5;">c</span> = boa.load(<span style="color: #008000;">"hello_world.dasy"</span>)
-<span style="color: #006FE0;">print</span>(c.addUints(<span style="color: #D0372D;">10</span>, <span style="color: #D0372D;">20</span>)) <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">outputs 30</span>
-<span style="color: #006FE0;">print</span>(c.subUints(<span style="color: #D0372D;">100</span>, <span style="color: #D0372D;">20</span>)) <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">outputs 80</span>
-c.setBase(<span style="color: #D0372D;">10</span>)
-<span style="color: #006FE0;">print</span>(c.addToBase(<span style="color: #D0372D;">10</span>)) <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">outputs 20</span>
-</pre>
-</div>
-
-<p>
-via hy (lisp based on python)
-</p>
-<div class="org-src-container">
-<pre class="src src-hy">(<span style="color: #0000FF;">import</span> rich [<span style="color: #0000FF;">print</span>]
-        boa.contract [VyperContract]
-        dasy)
-
-(let [src (<span style="color: #0000FF;">with</span> [f (<span style="color: #006FE0;">open</span> <span style="color: #008000;">"hello_world.dasy"</span> <span style="color: #008000;">"r"</span>)]
-            (.read f))
-      compilation_data (.compile dasy src)
-      contract (VyperContract compilation_data)]
-  (<span style="color: #0000FF;">print</span> f<span style="color: #008000;">"calling (.addUints contract 10 20): {(.addUints contract 10 20)}"</span>)
-  (<span style="color: #0000FF;">print</span> f<span style="color: #008000;">"calling (.subUints contract 10 20): {(.subUints contract 100 20)}"</span>))
-</pre>
-</div>
-
-<p>
-Command line compilation
-</p>
-<div class="org-src-container">
-<pre class="src src-shell">&gt; dasy hello_world.dasy
-0x61004f61000f60003961004f6000f36003361161000c57610037565b60003560e01c3461003d5763c29855788118610035576004361861003d57600860405260206040f35b505b60006000fd5b600080fda165767970657283000306000b
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Create a string variable that can store maximum 100 characters</span>
+<span class="linenr">2: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">greet</span> <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>string <span style="color: #D0372D;">100</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">3: </span>
+<span class="linenr">4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">5: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/greet <span style="color: #008000;">"Hello World"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org978476b" class="outline-2">
-<h2 id="org978476b"><span class="section-number-2">2.</span> Installation</h2>
+<div id="outline-container-org97daaea" class="outline-2">
+<h2 id="org97daaea"><span class="section-number-2">2.</span> Data Types - Values</h2>
 <div class="outline-text-2" id="text-2">
-<p>
-For use as a library
-</p>
 <div class="org-src-container">
-<pre class="src src-bash">pip install dasy
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span>
+<span class="linenr"> 2: </span>    <span style="color: #006699;">b</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:bool</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>    i <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:int128</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 4: </span>    u <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 5: </span>    addr <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 6: </span>    b32 <span style="color: #D0372D;">:bytes32</span>
+<span class="linenr"> 7: </span>    bs <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>bytes <span style="color: #D0372D;">100</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 8: </span>    s   <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>string <span style="color: #D0372D;">100</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 9: </span>
+<span class="linenr">10: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">11: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/b False<span style="color: #7388D6;">)</span>
+<span class="linenr">12: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/i <span style="color: #D0372D;">-1</span><span style="color: #7388D6;">)</span>
+<span class="linenr">13: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/u <span style="color: #D0372D;">123</span><span style="color: #7388D6;">)</span>
+<span class="linenr">14: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/b32 <span style="color: #D0372D;">0xada1b75f8ae9a65dcc16f95678ac203030505c6b465c8206e26ae84b525cdacb</span><span style="color: #7388D6;">)</span>
+<span class="linenr">15: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/bs b<span style="color: #008000;">"</span><span style="color: #000000; font-weight: bold;">\x</span><span style="color: #008000;">01"</span><span style="color: #7388D6;">)</span>
+<span class="linenr">16: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/s <span style="color: #008000;">"Hello Dasy"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
-
-<p>
-For use as an executable
-</p>
-<div class="org-src-container">
-<pre class="src src-bash">pipx install dasy
-</pre>
 </div>
 </div>
-</div>
-<div id="outline-container-orgea10a39" class="outline-2">
-<h2 id="orgea10a39"><span class="section-number-2">3.</span> Motivation</h2>
+<div id="outline-container-orgf28ffa4" class="outline-2">
+<h2 id="orgf28ffa4"><span class="section-number-2">3.</span> Data Types - References</h2>
 <div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-org1eb14ec" class="outline-3">
-<h3 id="org1eb14ec"><span class="section-number-3">3.1.</span> Macros</h3>
-<div class="outline-text-3" id="text-3-1">
 <p>
-There&rsquo;s a lot of opportunities for macros in smart contracts. They could also be used as a proof of concept for features before implementing them at a lower level in the compiler.
+References types are data types that are passed by their reference, pointer to where the actual data is stored.
 </p>
 
-<p>
-macros are written in Hy, a pythonic lisp. They allow us to transform our code at compile time, allowing the developer to tailor the language itself to their needs.
-</p>
-
-<p>
-A basic example is <code>doto</code>
-</p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #8D8D84;">;;</span><span style="color: #8D8D84; font-style: italic;">raw dasy</span>
-<span style="color: #707183;">(</span><span style="color: #0000FF;">do</span>
-  <span style="color: #7388D6;">(</span>.append self/nums <span style="color: #D0372D;">10</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append self/nums <span style="color: #D0372D;">11</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append self/nums <span style="color: #D0372D;">12</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append self/nums <span style="color: #D0372D;">13</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append self/nums <span style="color: #D0372D;">14</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defstruct</span> <span style="color: #6434A3;">Person</span>
+<span class="linenr"> 2: </span>  name <span style="color: #7388D6;">(</span>string <span style="color: #D0372D;">100</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>  age <span style="color: #D0372D;">:uint256</span><span style="color: #707183;">)</span>
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span>
+<span class="linenr"> 6: </span>    <span style="color: #006699;">nums</span> <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">10</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span> <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">fixed size list, must be bounded</span>
+<span class="linenr"> 7: </span>    myMap <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>hash-map <span style="color: #D0372D;">:address</span> <span style="color: #D0372D;">:uint256</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 8: </span>    person <span style="color: #7388D6;">(</span>public Person<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 9: </span>
+<span class="linenr">10: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">11: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">doto</span> <span style="color: #6434A3;">self</span>/nums
+<span class="linenr">12: </span>        <span style="color: #909183;">(</span>set-at <span style="color: #D0372D;">0</span> <span style="color: #D0372D;">123</span><span style="color: #909183;">)</span> <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">this updates self.nums[0]</span>
+<span class="linenr">13: </span>        <span style="color: #909183;">(</span>set-at <span style="color: #D0372D;">9</span> <span style="color: #D0372D;">456</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span> <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">this updates self.nums[9]</span>
+<span class="linenr">14: </span>
+<span class="linenr">15: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">copies self.nums to array in memory</span>
+<span class="linenr">16: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">arr</span> <span style="color: #909183;">(</span>array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">10</span><span style="color: #909183;">)</span> <span style="color: #6434A3;">self</span>/nums<span style="color: #7388D6;">)</span>
+<span class="linenr">17: </span>  <span style="color: #7388D6;">(</span>set-at arr <span style="color: #D0372D;">0</span> <span style="color: #D0372D;">123</span><span style="color: #7388D6;">)</span> <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">does not modify self/nums</span>
+<span class="linenr">18: </span>
+<span class="linenr">19: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">this updates self/myMap</span>
+<span class="linenr">20: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">doto</span> <span style="color: #6434A3;">self</span>/myMap
+<span class="linenr">21: </span>        <span style="color: #909183;">(</span>set-at <span style="color: #6434A3;">msg</span>/sender <span style="color: #D0372D;">1</span><span style="color: #909183;">)</span> <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">self.myMap[msg.sender] = 1</span>
+<span class="linenr">22: </span>        <span style="color: #909183;">(</span>set-at <span style="color: #6434A3;">msg</span>/sender <span style="color: #D0372D;">11</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span> <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">self.myMap[msg.sender] = 11</span>
+<span class="linenr">23: </span>
+<span class="linenr">24: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">this updates self/person</span>
+<span class="linenr">25: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">doto</span> <span style="color: #6434A3;">self</span>/person
+<span class="linenr">26: </span>        <span style="color: #909183;">(</span>set-in age <span style="color: #D0372D;">11</span><span style="color: #909183;">)</span>
+<span class="linenr">27: </span>        <span style="color: #909183;">(</span>set-in name <span style="color: #008000;">"Dasy"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">28: </span>
+<span class="linenr">29: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">you could put defvar inside a doto like the arr example</span>
+<span class="linenr">30: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">above, but I don't think that is very readable</span>
+<span class="linenr">31: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">doing it this way is clearer, leaving the defvar out of doto</span>
+<span class="linenr">32: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Person struct is copied into memory</span>
+<span class="linenr">33: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">p</span> Person <span style="color: #6434A3;">self</span>/person<span style="color: #7388D6;">)</span>
+<span class="linenr">34: </span>  <span style="color: #7388D6;">(</span>set-in p name <span style="color: #008000;">"Solidity"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0704b4f" class="outline-2">
+<h2 id="org0704b4f"><span class="section-number-2">4.</span> Dynamic Arrays</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Dynamic arrays are bounded arrays whose length can change. The length of the array cannot exceed the maximum length set where the array is declared.
+</p>
 
-<span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">macro definition</span>
-<span style="color: #707183;">(</span><span style="color: #0000FF;">defmacro</span> <span style="color: #006699;">doto</span> [ obj #*cmds]
-  `<span style="color: #7388D6;">(</span><span style="color: #0000FF;">do</span>
-     ~@<span style="color: #909183;">(</span>lfor c cmds
-             `<span style="color: #709870;">(</span>~<span style="color: #707183;">(</span>get c <span style="color: #D0372D;">0</span><span style="color: #707183;">)</span> ~obj ~<span style="color: #707183;">(</span>get c <span style="color: #D0372D;">1</span><span style="color: #707183;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-<span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">using macro</span>
-<span style="color: #707183;">(</span>doto self/nums
-  <span style="color: #7388D6;">(</span>.append <span style="color: #D0372D;">10</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append <span style="color: #D0372D;">11</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append <span style="color: #D0372D;">12</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append <span style="color: #D0372D;">13</span><span style="color: #7388D6;">)</span>
-  <span style="color: #7388D6;">(</span>.append <span style="color: #D0372D;">14</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">dynamic array of type uint256, max 3 elements</span>
+<span class="linenr"> 2: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">nums</span> <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>dyn-array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">3</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 3: </span>
+<span class="linenr"> 4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 5: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">doto</span> <span style="color: #6434A3;">self</span>/nums
+<span class="linenr"> 6: </span>    <span style="color: #909183;">(</span>.append  <span style="color: #D0372D;">11</span><span style="color: #909183;">)</span>
+<span class="linenr"> 7: </span>    <span style="color: #909183;">(</span>.append  <span style="color: #D0372D;">22</span><span style="color: #909183;">)</span>
+<span class="linenr"> 8: </span>    <span style="color: #909183;">(</span>.append  <span style="color: #D0372D;">33</span><span style="color: #909183;">)</span>
+<span class="linenr"> 9: </span>   <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">this will revert, appending to array with max 3 elements</span>
+<span class="linenr">10: </span>   <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">(.append self/nums 44)</span>
+<span class="linenr">11: </span>    <span style="color: #7388D6;">)</span>
+<span class="linenr">12: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">delete all elements</span>
+<span class="linenr">13: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/nums <span style="color: #909183;">[]</span><span style="color: #7388D6;">)</span>
+<span class="linenr">14: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">set values</span>
+<span class="linenr">15: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/nums <span style="color: #909183;">[</span><span style="color: #D0372D;">1</span> <span style="color: #D0372D;">2</span> <span style="color: #D0372D;">3</span><span style="color: #909183;">]</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">16: </span>
+<span class="linenr">17: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">examples</span> <span style="color: #7388D6;">[</span><span style="color: #909183;">(</span>dyn-array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">5</span><span style="color: #909183;">)</span> xs<span style="color: #7388D6;">]</span> <span style="color: #7388D6;">(</span>dyn-array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">8</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">18: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">ys</span> <span style="color: #909183;">(</span>dyn-array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">8</span><span style="color: #909183;">)</span> <span style="color: #909183;">[</span><span style="color: #D0372D;">1</span> <span style="color: #D0372D;">2</span> <span style="color: #D0372D;">3</span><span style="color: #909183;">]</span><span style="color: #7388D6;">)</span>
+<span class="linenr">19: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">for</span> <span style="color: #909183;">[</span>x xs<span style="color: #909183;">]</span>
+<span class="linenr">20: </span>       <span style="color: #909183;">(</span>.append ys x<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">21: </span>  <span style="color: #7388D6;">(</span>return ys<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">22: </span>
+<span class="linenr">23: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">filter</span> <span style="color: #7388D6;">[</span><span style="color: #909183;">(</span>dyn-array <span style="color: #D0372D;">:address</span> <span style="color: #D0372D;">5</span><span style="color: #909183;">)</span> addrs<span style="color: #7388D6;">]</span> <span style="color: #7388D6;">(</span>dyn-array <span style="color: #D0372D;">:address</span> <span style="color: #D0372D;">5</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">24: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">nonzeros</span> <span style="color: #909183;">(</span>dyn-array <span style="color: #D0372D;">:address</span> <span style="color: #D0372D;">5</span><span style="color: #909183;">)</span> <span style="color: #909183;">[]</span><span style="color: #7388D6;">)</span>
+<span class="linenr">25: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">for</span> <span style="color: #909183;">[</span>addr addrs<span style="color: #909183;">]</span>
+<span class="linenr">26: </span>       <span style="color: #909183;">(</span><span style="color: #0000FF;">if</span> <span style="color: #709870;">(</span>!= addr <span style="color: #707183;">(</span>empty <span style="color: #D0372D;">:address</span><span style="color: #707183;">)</span><span style="color: #709870;">)</span>
+<span class="linenr">27: </span>           <span style="color: #709870;">(</span><span style="color: #0000FF;">do</span> <span style="color: #707183;">(</span>.append nonzeros addr<span style="color: #707183;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">28: </span>  <span style="color: #7388D6;">(</span>return nonzeros<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgee7ab0a" class="outline-2">
+<h2 id="orgee7ab0a"><span class="section-number-2">5.</span> Functions</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">multiply</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 2: </span>  <span style="color: #7388D6;">(</span>* x y<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 3: </span>
+<span class="linenr"> 4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">divide</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 5: </span>  <span style="color: #7388D6;">(</span>/ x y<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">multiOut</span> <span style="color: #7388D6;">[]</span> '<span style="color: #7388D6;">(</span><span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:bool</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 8: </span>  '<span style="color: #7388D6;">(</span><span style="color: #D0372D;">1</span> True<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 9: </span>
+<span class="linenr">10: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">addAndSub</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> '<span style="color: #7388D6;">(</span><span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">11: </span>  '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span>+ x y<span style="color: #909183;">)</span> <span style="color: #909183;">(</span>- x y<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb1acfca" class="outline-2">
+<h2 id="orgb1acfca"><span class="section-number-2">6.</span> Internal and External Functions</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+<code>:internal</code> functions can only be called inside the contract.
+</p>
+
+<p>
+<code>:external</code> functions can only be called from outside the contract.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">internal functions can only be called inside this contract</span>
+<span class="linenr"> 2: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">_add</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:internal</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 3: </span>  <span style="color: #7388D6;">(</span>+ x y<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">external functions can only be called from outside this contract</span>
+<span class="linenr"> 6: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">extFunc</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:bool</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 7: </span>  True<span style="color: #707183;">)</span>
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">external functions can only be called from outside this contract</span>
+<span class="linenr">10: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">avg</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr">11: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">cannot call other external function</span>
+<span class="linenr">12: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">(.extFunc self)</span>
+<span class="linenr">13: </span>
+<span class="linenr">14: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">can call internal functions</span>
+<span class="linenr">15: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">z</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #909183;">(</span><span style="color: #6434A3;">self</span>/_add x y<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">16: </span>  <span style="color: #7388D6;">(</span>/ <span style="color: #909183;">(</span>+ x y<span style="color: #909183;">)</span>
+<span class="linenr">17: </span>     <span style="color: #D0372D;">2</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">18: </span>
+<span class="linenr">19: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">_sqr</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:internal</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">20: </span>  <span style="color: #7388D6;">(</span>* x x<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">21: </span>
+<span class="linenr">22: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sumOfSquares</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr">23: </span>  <span style="color: #7388D6;">(</span>+ <span style="color: #909183;">(</span><span style="color: #6434A3;">self</span>/_sqr x<span style="color: #909183;">)</span>
+<span class="linenr">24: </span>     <span style="color: #909183;">(</span><span style="color: #6434A3;">self</span>/_sqr y<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org36f8c57" class="outline-2">
+<h2 id="org36f8c57"><span class="section-number-2">7.</span> View and Pure Functions</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Both <code>pure</code> and <code>view</code> functions are read-only. They cannot write anything to the blockchain.
+</p>
+
+<p>
+<code>pure</code> functions do not read any state or global variables.
+</p>
+
+<p>
+<code>view</code> functions can read state variables, global variables, and call internal (view) functions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">num</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Pure functions do not read any state or global variables</span>
+<span class="linenr"> 4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">pureFunc</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 5: </span>  x<span style="color: #707183;">)</span>
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">View functions might read state or global state, or call an internal function</span>
+<span class="linenr"> 8: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">viewFunc</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:bool</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 9: </span>  <span style="color: #7388D6;">(</span>&gt; x <span style="color: #6434A3;">self</span>/num<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sum</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y z<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">12: </span>  <span style="color: #7388D6;">(</span>+ x  y z<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">13: </span>
+<span class="linenr">14: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">addNum</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr">15: </span>  <span style="color: #7388D6;">(</span>+ x <span style="color: #6434A3;">self</span>/num<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org06dddc0" class="outline-2">
+<h2 id="org06dddc0"><span class="section-number-2">8.</span> Constructor</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+<code>__init__</code> is a special function that is executed only once, when the contract is deployed.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span> <span style="color: #006699;">owner</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 2: </span>        createdAt <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>        expiresAt <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 4: </span>        name <span style="color: #7388D6;">(</span>public <span style="color: #909183;">(</span>string <span style="color: #D0372D;">10</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 5: </span>
+<span class="linenr"> 6: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[</span><span style="color: #909183;">(</span>string <span style="color: #D0372D;">10</span><span style="color: #909183;">)</span> name <span style="color: #D0372D;">:uint256</span> duration<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 7: </span>    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">set owner to caller</span>
+<span class="linenr"> 8: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner <span style="color: #6434A3;">msg</span>/sender<span style="color: #7388D6;">)</span>
+<span class="linenr"> 9: </span>    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">set name from input</span>
+<span class="linenr">10: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/name name<span style="color: #7388D6;">)</span>
+<span class="linenr">11: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/createdAt <span style="color: #6434A3;">block</span>/timestamp<span style="color: #7388D6;">)</span>
+<span class="linenr">12: </span>    <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/expiresAt <span style="color: #909183;">(</span>+ <span style="color: #6434A3;">block</span>/timestamp
+<span class="linenr">13: </span>                            duration<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9ce3f38" class="outline-2">
+<h2 id="org9ce3f38"><span class="section-number-2">9.</span> Private and Public State Variables</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Private state variables cannot be accessed from outside of the contract.
+</p>
+
+<p>
+Public state variables can be read by anyone, including other contracts.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span>
+<span class="linenr">2: </span>    <span style="color: #006699;">owner</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr">3: </span>    foo <span style="color: #D0372D;">:uint256</span>
+<span class="linenr">4: </span>    bar <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:bool</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">5: </span>
+<span class="linenr">6: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">7: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner <span style="color: #6434A3;">msg</span>/sender<span style="color: #7388D6;">)</span>
+<span class="linenr">8: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/foo <span style="color: #D0372D;">123</span><span style="color: #7388D6;">)</span>
+<span class="linenr">9: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/bar True<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf8091db" class="outline-2">
+<h2 id="orgf8091db"><span class="section-number-2">10.</span> Constants</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+Constants are variables that cannot change. Any usage of a constant is replaced with its value at compile time.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defconst</span> <span style="color: #006699;">MY_CONSTANT</span> <span style="color: #D0372D;">123</span><span style="color: #707183;">)</span>
+<span class="linenr"> 2: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defconst</span> <span style="color: #006699;">MIN</span> <span style="color: #D0372D;">1</span><span style="color: #707183;">)</span>
+<span class="linenr"> 3: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defconst</span> <span style="color: #006699;">MAX</span> <span style="color: #D0372D;">10</span><span style="color: #707183;">)</span>
+<span class="linenr"> 4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defconst</span> <span style="color: #006699;">ADDR</span> <span style="color: #D0372D;">0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B</span><span style="color: #707183;">)</span>
+<span class="linenr"> 5: </span>
+<span class="linenr"> 6: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getMyConstants</span> <span style="color: #7388D6;">[]</span> '<span style="color: #7388D6;">(</span><span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 7: </span>  '<span style="color: #7388D6;">(</span>MIN MAX ADDR<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">test</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">10: </span>  <span style="color: #7388D6;">(</span>+ x MIN<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcae8ddd" class="outline-2">
+<h2 id="orgcae8ddd"><span class="section-number-2">11.</span> Immutable</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+Immutables are variables that must be set at compile time and cannot change afterwards. Any usage of a constant in runtime code is replaced with its value at deployment time.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">OWNER</span> <span style="color: #7388D6;">(</span>immutable <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">2: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">MY_IMMUTABLE</span> <span style="color: #7388D6;">(</span>immutable <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">3: </span>
+<span class="linenr">4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> _val<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">5: </span>  <span style="color: #7388D6;">(</span>setv OWNER <span style="color: #6434A3;">msg</span>/sender<span style="color: #7388D6;">)</span>
+<span class="linenr">6: </span>  <span style="color: #7388D6;">(</span>setv MY_IMMUTABLE _val<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">7: </span>
+<span class="linenr">8: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getMyImmutable</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">9: </span>  MY_IMMUTABLE<span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+<div id="outline-container-org08e849c" class="outline-3">
+<h3 id="org08e849c"><span class="section-number-3">11.1.</span> When to use immutable variables?</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>You have a variable that needs to be set when the contract is deployed, for example like setting contract owner to <code>msg.sender</code></li>
+<li>and this variable will never change after deployment</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd744dca" class="outline-3">
+<h3 id="orgd744dca"><span class="section-number-3">11.2.</span> Why declare variables as <code>immutable</code>?</h3>
+<div class="outline-text-3" id="text-11-2">
+<ul class="org-ul">
+<li>Like constants, <code>immutable</code> variables save run time gas.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd7e03f2" class="outline-2">
+<h2 id="orgd7e03f2"><span class="section-number-2">12.</span> If/Else</h2>
+<div class="outline-text-2" id="text-12">
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">ifElse</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 2: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>&lt;= x <span style="color: #D0372D;">10</span><span style="color: #909183;">)</span>
+<span class="linenr"> 3: </span>      <span style="color: #909183;">(</span>return <span style="color: #D0372D;">1</span><span style="color: #909183;">)</span>
+<span class="linenr"> 4: </span>      <span style="color: #909183;">(</span><span style="color: #0000FF;">if</span> <span style="color: #709870;">(</span>&lt;= x <span style="color: #D0372D;">20</span><span style="color: #709870;">)</span>
+<span class="linenr"> 5: </span>          <span style="color: #709870;">(</span>return <span style="color: #D0372D;">2</span><span style="color: #709870;">)</span>
+<span class="linenr"> 6: </span>          <span style="color: #709870;">(</span>return <span style="color: #D0372D;">3</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">absoluteValue</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 9: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>&gt;= x y<span style="color: #909183;">)</span>
+<span class="linenr">10: </span>      <span style="color: #909183;">(</span>return <span style="color: #709870;">(</span>- x y<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">11: </span>  <span style="color: #7388D6;">(</span>return <span style="color: #909183;">(</span>- y x<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0dbaa35" class="outline-2">
+<h2 id="org0dbaa35"><span class="section-number-2">13.</span> For Loop</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+There are 2 ways to loop through an array, using <code>range</code> or directly looping through array elements.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">forLoop</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 2: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">s</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">0</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">for</span> <span style="color: #909183;">[</span>i <span style="color: #709870;">(</span>range <span style="color: #D0372D;">10</span><span style="color: #709870;">)</span><span style="color: #909183;">]</span>
+<span class="linenr"> 4: </span>       <span style="color: #909183;">(</span>+= s i<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 5: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">for loop through array elements</span>
+<span class="linenr"> 6: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">find minimum of nums</span>
+<span class="linenr"> 7: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">nums</span> <span style="color: #909183;">(</span>array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">5</span><span style="color: #909183;">)</span> <span style="color: #909183;">[</span><span style="color: #D0372D;">4</span> <span style="color: #D0372D;">5</span> <span style="color: #D0372D;">1</span> <span style="color: #D0372D;">9</span> <span style="color: #D0372D;">3</span><span style="color: #909183;">]</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 8: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">x</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #909183;">(</span>max_value <span style="color: #D0372D;">:uint256</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 9: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">for</span> <span style="color: #909183;">[</span>num nums<span style="color: #909183;">]</span>
+<span class="linenr">10: </span>       <span style="color: #909183;">(</span><span style="color: #0000FF;">if</span> <span style="color: #709870;">(</span>&lt; num x<span style="color: #709870;">)</span>
+<span class="linenr">11: </span>           <span style="color: #709870;">(</span>setv x num<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">12: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">c</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">0</span><span style="color: #7388D6;">)</span>
+<span class="linenr">13: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">for</span> <span style="color: #909183;">[</span>i <span style="color: #709870;">[</span><span style="color: #D0372D;">1</span> <span style="color: #D0372D;">2</span> <span style="color: #D0372D;">3</span> <span style="color: #D0372D;">4</span> <span style="color: #D0372D;">5</span><span style="color: #709870;">]</span><span style="color: #909183;">]</span>
+<span class="linenr">14: </span>       <span style="color: #909183;">(</span><span style="color: #0000FF;">if</span> <span style="color: #709870;">(</span>== i <span style="color: #D0372D;">2</span><span style="color: #709870;">)</span>
+<span class="linenr">15: </span>           <span style="color: #709870;">(</span>continue<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+<span class="linenr">16: </span>       <span style="color: #909183;">(</span><span style="color: #0000FF;">if</span> <span style="color: #709870;">(</span>== i <span style="color: #D0372D;">4</span><span style="color: #709870;">)</span>
+<span class="linenr">17: </span>           <span style="color: #709870;">(</span>break<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+<span class="linenr">18: </span>       <span style="color: #909183;">(</span>+= c <span style="color: #D0372D;">1</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">19: </span>  c<span style="color: #707183;">)</span>
+<span class="linenr">20: </span>
+<span class="linenr">21: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sum</span> <span style="color: #7388D6;">[</span><span style="color: #909183;">(</span>array <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">10</span><span style="color: #909183;">)</span> nums<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">22: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">s</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">0</span><span style="color: #7388D6;">)</span>
+<span class="linenr">23: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">for</span> <span style="color: #909183;">[</span>n nums<span style="color: #909183;">]</span>
+<span class="linenr">24: </span>       <span style="color: #909183;">(</span>+= s n<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">25: </span>  s<span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1336fd1" class="outline-2">
+<h2 id="org1336fd1"><span class="section-number-2">14.</span> Errors</h2>
+<div class="outline-text-2" id="text-14">
+<p>
+Use <code>assert</code> and <code>raise</code> to check inputs and validate state.
+</p>
+
+<p>
+When an error occurs, it will halt the entire function call, undoing any changes.
+</p>
+
+<p>
+You will still need to pay gas for the failed transaction.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span>
+<span class="linenr"> 2: </span>    <span style="color: #006699;">x</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>    owner <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 6: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner <span style="color: #6434A3;">msg</span>/sender<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">testAssert</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 9: </span>  <span style="color: #7388D6;">(</span>assert <span style="color: #909183;">(</span>&gt;= x <span style="color: #D0372D;">1</span><span style="color: #909183;">)</span> <span style="color: #008000;">"x &lt; 1"</span><span style="color: #7388D6;">)</span>
+<span class="linenr">10: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/x x<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">11: </span>
+<span class="linenr">12: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">testRaise</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">13: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>&lt;= x <span style="color: #D0372D;">1</span><span style="color: #909183;">)</span>
+<span class="linenr">14: </span>      <span style="color: #909183;">(</span>raise <span style="color: #008000;">"x &lt; 1"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">15: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/x x<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">16: </span>
+<span class="linenr">17: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">_testErrorBubblesUp</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:internal</span>
+<span class="linenr">18: </span>  <span style="color: #7388D6;">(</span>assert <span style="color: #909183;">(</span>&gt;= x <span style="color: #D0372D;">1</span><span style="color: #909183;">)</span> <span style="color: #008000;">"x &lt; 1"</span><span style="color: #7388D6;">)</span>
+<span class="linenr">19: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/x x<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">20: </span>
+<span class="linenr">21: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">testErrorBubblesUp</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">22: </span>  <span style="color: #7388D6;">(</span><span style="color: #6434A3;">self</span>/_testErrorBubblesUp x<span style="color: #7388D6;">)</span>
+<span class="linenr">23: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/x <span style="color: #D0372D;">123</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">24: </span>
+<span class="linenr">25: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">setOwner</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> owner<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">26: </span>  <span style="color: #7388D6;">(</span>assert <span style="color: #909183;">(</span>== <span style="color: #6434A3;">msg</span>/sender <span style="color: #6434A3;">self</span>/owner<span style="color: #909183;">)</span> <span style="color: #008000;">"!owner"</span><span style="color: #7388D6;">)</span>
+<span class="linenr">27: </span>  <span style="color: #7388D6;">(</span>assert <span style="color: #909183;">(</span>!= owner <span style="color: #709870;">(</span>empty <span style="color: #D0372D;">:address</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span> <span style="color: #008000;">"owner = zero"</span><span style="color: #7388D6;">)</span>
+<span class="linenr">28: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner owner<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf884214" class="outline-2">
+<h2 id="orgf884214"><span class="section-number-2">15.</span> Events</h2>
+<div class="outline-text-2" id="text-15">
+<p>
+Events write logs to the blockchain, commonly used by application to monitor blockchain state and as a cheaper alternative to store data on the blockchain without using state variables.
+</p>
+
+<p>
+Events can be efficiently searched by indexing their arguments. Up to 3 parameters can be indexed.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defevent</span> <span style="color: #006699;">Transfer</span>
+<span class="linenr"> 2: </span>  sender <span style="color: #7388D6;">(</span>indexed <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>  receiver <span style="color: #7388D6;">(</span>indexed <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 4: </span>  amount <span style="color: #D0372D;">:uint256</span><span style="color: #707183;">)</span>
+<span class="linenr"> 5: </span>
+<span class="linenr"> 6: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">transfer</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> receiver <span style="color: #D0372D;">:uint256</span> amount<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 7: </span>  <span style="color: #7388D6;">(</span>log <span style="color: #909183;">(</span>Transfer <span style="color: #6434A3;">msg</span>/sender receiver amount<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">mint</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> amount<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">10: </span>  <span style="color: #7388D6;">(</span>log <span style="color: #909183;">(</span>Transfer <span style="color: #709870;">(</span>empty <span style="color: #D0372D;">:address</span><span style="color: #709870;">)</span> <span style="color: #6434A3;">msg</span>/sender amount<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">11: </span>
+<span class="linenr">12: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">burn</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> amount<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">13: </span>  <span style="color: #7388D6;">(</span>log <span style="color: #909183;">(</span>Transfer <span style="color: #6434A3;">msg</span>/sender <span style="color: #709870;">(</span>empty <span style="color: #D0372D;">:address</span><span style="color: #709870;">)</span> amount<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org63077fb" class="outline-2">
+<h2 id="org63077fb"><span class="section-number-2">16.</span> Payable</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+Functions declared with <code>payable</code> can receive Ether.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defevent</span> <span style="color: #006699;">Deposit</span>
+<span class="linenr"> 2: </span>  sender <span style="color: #7388D6;">(</span>indexed <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>  amount <span style="color: #D0372D;">:uint256</span><span style="color: #707183;">)</span>
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">deposit</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 6: </span>  <span style="color: #7388D6;">(</span>log <span style="color: #909183;">(</span>Deposit <span style="color: #6434A3;">msg</span>/sender <span style="color: #6434A3;">msg</span>/value<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getBalance</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 9: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">get balance of Ether stored in this contract</span>
+<span class="linenr">10: </span>  <span style="color: #6434A3;">self</span>/balance<span style="color: #707183;">)</span>
+<span class="linenr">11: </span>
+<span class="linenr">12: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">owner</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">13: </span>
+<span class="linenr">14: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">pay</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr">15: </span>  <span style="color: #7388D6;">(</span>assert <span style="color: #909183;">(</span>&gt; <span style="color: #6434A3;">msg</span>/value <span style="color: #D0372D;">0</span><span style="color: #909183;">)</span> <span style="color: #008000;">"msg.value = 0"</span><span style="color: #7388D6;">)</span>
+<span class="linenr">16: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner <span style="color: #6434A3;">msg</span>/sender<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga710135" class="outline-2">
+<h2 id="orga710135"><span class="section-number-2">17.</span> Default Function</h2>
+<div class="outline-text-2" id="text-17">
+<p>
+A contract can have a default function, executed when a function that does not exist is called. This is the same function as the fallback function in Solidity.
+</p>
+
+<p>
+This function is named <code>__default__</code> and it is commonly used to receive Ether.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defevent</span> <span style="color: #006699;">Payment</span>
+<span class="linenr">2: </span>  sender <span style="color: #7388D6;">(</span>indexed <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr">3: </span>  amount <span style="color: #D0372D;">:uint256</span><span style="color: #707183;">)</span>
+<span class="linenr">4: </span>
+<span class="linenr">5: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__default__</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr">6: </span>  <span style="color: #7388D6;">(</span>log <span style="color: #909183;">(</span>Payment <span style="color: #6434A3;">msg</span>/sender <span style="color: #6434A3;">msg</span>/value<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge3e312c" class="outline-2">
+<h2 id="orge3e312c"><span class="section-number-2">18.</span> Send Ether</h2>
+<div class="outline-text-2" id="text-18">
+<p>
+There are two ways to send Ether from a contract, <code>send</code> and <code>raw_call</code>. Here we introduce the simpler function to use, <code>send</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">receive ether into the contract</span>
+<span class="linenr"> 2: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__default__</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 3: </span>  <span style="color: #7388D6;">(</span>pass<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sendEther</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> to <span style="color: #D0372D;">:uint256</span> amount<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 6: </span>  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">calls the default fn in the receiving contract</span>
+<span class="linenr"> 7: </span>  <span style="color: #7388D6;">(</span>send to amount<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sendAll</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> to<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">10: </span>  <span style="color: #7388D6;">(</span>send to <span style="color: #6434A3;">self</span>/balance<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3db2a31" class="outline-2">
+<h2 id="org3db2a31"><span class="section-number-2">19.</span> Raw Call</h2>
+<div class="outline-text-2" id="text-19">
+<p>
+<code>raw_call</code> is a low level function. It is used to call and send Ether to other functions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">testRawCall</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> to <span style="color: #D0372D;">:uint256</span> x y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 2: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">res</span> <span style="color: #909183;">(</span>bytes <span style="color: #D0372D;">32</span><span style="color: #909183;">)</span>
+<span class="linenr"> 3: </span>    <span style="color: #909183;">(</span>raw_call to
+<span class="linenr"> 4: </span>              <span style="color: #709870;">(</span>concat <span style="color: #707183;">(</span>method_id <span style="color: #008000;">"multiply(uint256,uint256)"</span><span style="color: #707183;">)</span>
+<span class="linenr"> 5: </span>                         <span style="color: #707183;">(</span>convert x <span style="color: #D0372D;">:bytes32</span><span style="color: #707183;">)</span>
+<span class="linenr"> 6: </span>                         <span style="color: #707183;">(</span>convert y <span style="color: #D0372D;">:bytes32</span><span style="color: #707183;">)</span><span style="color: #709870;">)</span>
+<span class="linenr"> 7: </span>              <span style="color: #D0372D;">:max_outsize</span> <span style="color: #D0372D;">32</span>
+<span class="linenr"> 8: </span>              <span style="color: #D0372D;">:gas</span> <span style="color: #D0372D;">100000</span>
+<span class="linenr"> 9: </span>              <span style="color: #D0372D;">:value</span> <span style="color: #D0372D;">0</span>
+<span class="linenr">10: </span>              <span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">11: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">z</span> <span style="color: #D0372D;">:uint256</span> <span style="color: #909183;">(</span>convert res <span style="color: #D0372D;">:uint256</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+<span class="linenr">12: </span>  z<span style="color: #707183;">)</span>
+<span class="linenr">13: </span>
+<span class="linenr">14: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sendEth</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> to<span style="color: #7388D6;">]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr">15: </span>  <span style="color: #7388D6;">(</span>raw_call to b<span style="color: #008000;">""</span> <span style="color: #D0372D;">:value</span> <span style="color: #6434A3;">msg</span>/value<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6c7a234" class="outline-2">
+<h2 id="org6c7a234"><span class="section-number-2">20.</span> Delegate Call</h2>
+<div class="outline-text-2" id="text-20">
+<p>
+When contract <code>A</code> delegates call to contract <code>B</code>, <code>B</code>&rsquo;s code will be executed inside contract <code>A</code>. This will update state variables and Ether balance inside contract <code>A</code> and not <code>B</code>.
+</p>
+
+<p>
+Delegate call is commonly used to create an upgradable contract.
+</p>
+
+<p>
+Here is the contract that we will delegate call to.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span> <span style="color: #006699;">x</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span>
+<span class="linenr">2: </span>         y <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">3: </span>
+<span class="linenr">4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">updateX</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">5: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/x <span style="color: #909183;">(</span>+ x <span style="color: #D0372D;">1</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">6: </span>
+<span class="linenr">7: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">updateY</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:uint256</span> y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">8: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/y <span style="color: #909183;">(</span>* y y<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
 <p>
-After defining the <code>doto</code> macro, we are able to write shorter, simpler code which is easier to check for correctness.
+Here is the contract that will execute the delegated calls.
 </p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span> <span style="color: #006699;">x</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 2: </span>         y <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 3: </span>
+<span class="linenr"> 4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">updateX</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> to <span style="color: #D0372D;">:uint256</span> x<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 5: </span>  <span style="color: #7388D6;">(</span>raw_call to
+<span class="linenr"> 6: </span>            <span style="color: #909183;">(</span>concat
+<span class="linenr"> 7: </span>             <span style="color: #709870;">(</span>method_id <span style="color: #008000;">"updateX(uint256)"</span><span style="color: #709870;">)</span>
+<span class="linenr"> 8: </span>             <span style="color: #709870;">(</span>convert x <span style="color: #D0372D;">:bytes32</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+<span class="linenr"> 9: </span>            <span style="color: #D0372D;">:is_delegate_call</span> True<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">updateY</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> to <span style="color: #D0372D;">:uint256</span> y<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">12: </span>  <span style="color: #7388D6;">(</span>raw_call to
+<span class="linenr">13: </span>            <span style="color: #909183;">(</span>concat
+<span class="linenr">14: </span>             <span style="color: #709870;">(</span>method_id <span style="color: #008000;">"updateY(uint256)"</span><span style="color: #709870;">)</span>
+<span class="linenr">15: </span>             <span style="color: #709870;">(</span>convert y <span style="color: #D0372D;">:bytes32</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+<span class="linenr">16: </span>            <span style="color: #D0372D;">:is_delegate_call</span> True<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
 </div>
+</div>
+</div>
+<div id="outline-container-org8116565" class="outline-2">
+<h2 id="org8116565"><span class="section-number-2">21.</span> Interface</h2>
+<div class="outline-text-2" id="text-21">
+<p>
+Use <code>definterface</code> to define interfaces to use for calling other smart contracts.
+</p>
+
+<p>
+Here is the contract that will be called via interface:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvars</span>
+<span class="linenr"> 2: </span>    <span style="color: #006699;">owner</span> <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:address</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>    eth <span style="color: #7388D6;">(</span>public <span style="color: #D0372D;">:uint256</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">setOwner</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> owner<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr"> 6: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner owner<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sendEth</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 9: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/eth <span style="color: #6434A3;">msg</span>/value<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">setOwnerAndSendEth</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> owner<span style="color: #7388D6;">]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr">12: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/owner owner<span style="color: #7388D6;">)</span>
+<span class="linenr">13: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/eth <span style="color: #6434A3;">msg</span>/value<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
 </div>
 
-<div id="outline-container-orgc3f9d40" class="outline-3">
-<h3 id="orgc3f9d40"><span class="section-number-3">3.2.</span> For fun</h3>
+<p>
+Here is the contract executing the call via interface:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr"> 1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">definterface</span> <span style="color: #006699;">TestInterface</span>
+<span class="linenr"> 2: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">owner</span> <span style="color: #909183;">[]</span> <span style="color: #D0372D;">:address</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 3: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">setOwner</span> <span style="color: #909183;">[</span><span style="color: #D0372D;">:address</span> owner<span style="color: #909183;">]</span> <span style="color: #D0372D;">:nonpayable</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 4: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">sendEth</span> <span style="color: #909183;">[]</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">)</span>
+<span class="linenr"> 5: </span>  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">setOwnerAndSendEth</span> <span style="color: #909183;">[</span><span style="color: #D0372D;">:address</span> owner<span style="color: #909183;">]</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defvar</span> <span style="color: #006699;">test</span> <span style="color: #7388D6;">(</span>public TestInterface<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__init__</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> test<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">10: </span>  <span style="color: #7388D6;">(</span>setv <span style="color: #6434A3;">self</span>/test <span style="color: #909183;">(</span>TestInterface test<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">11: </span>
+<span class="linenr">12: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getOwner</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:address</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr">13: </span>  <span style="color: #7388D6;">(</span>.owner <span style="color: #6434A3;">self</span>/test<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">14: </span>
+<span class="linenr">15: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getOwnerFromAddress</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> test<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:address</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:view</span><span style="color: #7388D6;">]</span>
+<span class="linenr">16: </span>  <span style="color: #7388D6;">(</span>.owner <span style="color: #909183;">(</span>TestInterface test<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">17: </span>
+<span class="linenr">18: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">setOwner</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> owner<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">19: </span>  <span style="color: #7388D6;">(</span>.setOwner <span style="color: #6434A3;">self</span>/test owner<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1079d88" class="outline-2">
+<h2 id="org1079d88"><span class="section-number-2">22.</span> Hash Function</h2>
+<div class="outline-text-2" id="text-22">
+<p>
+Dasy supports the same hash function available in Vyper and Solidity, <code>keccak256</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getHash</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:address</span> addr <span style="color: #D0372D;">:uint256</span> num<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:bytes32</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">2: </span>  <span style="color: #7388D6;">(</span>keccak256
+<span class="linenr">3: </span>   <span style="color: #909183;">(</span>concat
+<span class="linenr">4: </span>    <span style="color: #709870;">(</span>convert addr <span style="color: #D0372D;">:bytes32</span><span style="color: #709870;">)</span>
+<span class="linenr">5: </span>    <span style="color: #709870;">(</span>convert num <span style="color: #D0372D;">:bytes32</span><span style="color: #709870;">)</span>
+<span class="linenr">6: </span>    <span style="color: #709870;">(</span>convert <span style="color: #008000;">"THIS IS A STRING"</span> <span style="color: #707183;">(</span>bytes <span style="color: #D0372D;">16</span><span style="color: #707183;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">7: </span>
+<span class="linenr">8: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">getMessageHash</span> <span style="color: #7388D6;">[</span><span style="color: #909183;">(</span>string <span style="color: #D0372D;">100</span><span style="color: #909183;">)</span> _str<span style="color: #7388D6;">]</span> <span style="color: #D0372D;">:bytes32</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:pure</span><span style="color: #7388D6;">]</span>
+<span class="linenr">9: </span>  <span style="color: #7388D6;">(</span>keccak256 _str<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org096fbcd" class="outline-2">
+<h2 id="org096fbcd"><span class="section-number-2">23.</span> Re-Entrancy Lock</h2>
+<div class="outline-text-2" id="text-23">
+<p>
+Dasy has a handy way to secure your contract from re-entrancy.
+</p>
+
+<p>
+A re-entrancy lock can be created on a function with (nonreentrant &ldquo;lock&rdquo;) in the decorator list.
+</p>
+
+<p>
+Functions can be locked together by using the same name for the locks.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">func0</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #909183;">(</span>nonreentrant <span style="color: #008000;">"lock"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">]</span>
+<span class="linenr">2: </span>  <span style="color: #7388D6;">(</span>raw_call <span style="color: #6434A3;">msg</span>/sender b<span style="color: #008000;">""</span> <span style="color: #D0372D;">:value</span> <span style="color: #D0372D;">0</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">3: </span>
+<span class="linenr">4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">func1</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #909183;">(</span>nonreentrant <span style="color: #008000;">"lock-2"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">]</span>
+<span class="linenr">5: </span>  <span style="color: #7388D6;">(</span>raw_call <span style="color: #6434A3;">msg</span>/sender b<span style="color: #008000;">""</span> <span style="color: #D0372D;">:value</span> <span style="color: #D0372D;">0</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">6: </span>
+<span class="linenr">7: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">func2</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #909183;">(</span>nonreentrant <span style="color: #008000;">"lock-2"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">]</span>
+<span class="linenr">8: </span>  <span style="color: #7388D6;">(</span>raw_call <span style="color: #6434A3;">msg</span>/sender b<span style="color: #008000;">""</span> <span style="color: #D0372D;">:value</span> <span style="color: #D0372D;">0</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbabe208" class="outline-2">
+<h2 id="orgbabe208"><span class="section-number-2">24.</span> Self Destruct</h2>
+<div class="outline-text-2" id="text-24">
+<p>
+<code>selfdestruct</code> deletes the contract from the blockchain. It takes a single input, an address to send all of Ether stored in the contract.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span class="linenr">1: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">__default__</span> <span style="color: #7388D6;">[]</span> <span style="color: #7388D6;">[</span><span style="color: #D0372D;">:external</span> <span style="color: #D0372D;">:payable</span><span style="color: #7388D6;">]</span>
+<span class="linenr">2: </span>  <span style="color: #7388D6;">(</span>pass<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">3: </span>
+<span class="linenr">4: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">kill</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">5: </span>  <span style="color: #7388D6;">(</span>selfdestruct <span style="color: #6434A3;">msg</span>/sender<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">6: </span>
+<span class="linenr">7: </span><span style="color: #707183;">(</span><span style="color: #0000FF;">defn</span> <span style="color: #006699;">burn</span> <span style="color: #7388D6;">[]</span> <span style="color: #D0372D;">:external</span>
+<span class="linenr">8: </span>  <span style="color: #7388D6;">(</span>selfdestruct <span style="color: #909183;">(</span>empty <span style="color: #D0372D;">:address</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: z80</p>
-<p class="date">Created: 2022-09-07 Wed 21:26</p>
+<p class="date">Created: 2022-09-07 Wed 17:32</p>
 </div>
 </body>
 </html>
